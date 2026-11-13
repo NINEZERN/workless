@@ -1,12 +1,12 @@
-# from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.decorators.http import require_POST
 
 
 # Create your views here.
-def hello(request):
-    return HttpResponse(b"Hello world")
+def home(request):
+    return render(request, "activity/index.html")
 
 @login_required
 @require_POST
