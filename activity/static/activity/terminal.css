@@ -2,14 +2,21 @@
 
 :root {
   color-scheme: dark;
-  --ink: #eef1e5;
-  --muted: #a7ae9a;
-  --line: #3a4134;
-  --lime: #d5fb79;
+  --ink: #e5e1e9;
+  --muted: #cac4d0;
+  --line: #49454f;
+  --primary: #d0bcff;
+  --on-primary: #381e72;
+  --secondary-container: #4a4458;
+  --on-secondary-container: #e8def8;
+  --outline: #938f99;
+  --error: #f2b8b5;
+  --panel: #211f26;
+  --surface: #17161c;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
   font-family: "Instrument Sans", system-ui, sans-serif;
   color: var(--ink);
-  background: #131710;
+  background: #141218;
 }
 
 * { box-sizing: border-box; }
@@ -19,10 +26,6 @@ body {
   display: grid;
   place-items: center;
   padding: 28px 16px;
-  background:
-    radial-gradient(ellipse at 50% 30%, #262e1d 0%, transparent 66%),
-    repeating-linear-gradient(90deg, transparent 0 79px, #ffffff06 79px 80px),
-    repeating-linear-gradient(0deg, transparent 0 79px, #ffffff06 79px 80px);
 }
 
 .shell { width: min(100%, 760px); }
@@ -39,27 +42,22 @@ body {
   width: 14px;
   height: 14px;
   margin-right: 11px;
-  background: var(--lime);
+  background: var(--primary);
   clip-path: polygon(0 0, 100% 0, 100% 40%, 62% 40%, 62% 100%, 0 100%);
 }
-.brand-period { color: var(--lime); }
+.brand-period { color: var(--primary); }
 .location { color: var(--muted); font-size: .75rem; }
 
 .terminal {
   padding: clamp(12px, 3vw, 26px);
-  border: 1px solid #525c49;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #30372a, #232820);
-  box-shadow: 0 8px 0 #0c100b, 0 28px 80px #080b07b0, inset 0 1px #ffffff13;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
 }
 .screen {
   padding: clamp(18px, 4vw, 32px);
-  border: 1px solid #434e3d;
-  border-radius: 11px;
-  background:
-    repeating-linear-gradient(0deg, #e0ffc805 0 1px, transparent 1px 4px),
-    radial-gradient(ellipse at 50% 90%, #212e1c, #111910 75%);
-  box-shadow: inset 0 0 35px #070d08ad;
+  border-radius: 8px;
+  background: var(--surface);
 }
 .screen-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 h1 { margin: 0; font-size: clamp(1rem, 3vw, 1.4rem); font-weight: 600; }
@@ -69,23 +67,22 @@ h1 { margin: 0; font-size: clamp(1rem, 3vw, 1.4rem); font-weight: 600; }
   gap: 8px;
   white-space: nowrap;
   padding: 6px 10px;
-  border: 1px solid #515b46;
-  border-radius: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
   font: 500 .73rem var(--mono);
-  color: #c1c9b4;
+  color: var(--muted);
 }
-.status::before { content: ""; width: 7px; height: 7px; background: #9b9f88; }
-.screen--active .status { color: var(--lime); border-color: #6d8247; }
-.screen--active .status::before { background: var(--lime); box-shadow: 0 0 10px #d5fb7970; }
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--outline); }
+.screen--active .status { color: var(--on-secondary-container); background: var(--secondary-container); border-color: transparent; }
+.screen--active .status::before { background: var(--primary); }
 
 .clock {
   margin-top: clamp(24px, 5vw, 44px);
-  color: var(--lime);
+  color: var(--ink);
   text-align: center;
   font: 600 clamp(1.9rem, 9.4vw, 5.9rem)/1 var(--mono);
   letter-spacing: -.07em;
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 28px #b3e44b30;
 }
 .date { margin: 16px 0 10px; text-align: center; color: var(--muted); font: .82rem var(--mono); letter-spacing: .09em; }
 
@@ -94,13 +91,9 @@ h1 { margin: 0; font-size: clamp(1rem, 3vw, 1.4rem); font-weight: 600; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 135px), 1fr));
   margin: 0 0 16px;
-  gap: 1px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--line);
+  gap: 12px;
 }
-.readout div { padding: 12px 15px; background: #20251d; min-width: 0; }
+.readout div { min-width: 0; }
 dt { color: var(--muted); font-size: .77rem; }
 dd { margin: 5px 0 0; font: 500 .92rem var(--mono); overflow-wrap: anywhere; }
 .guest-note { margin: 0 0 15px; color: var(--muted); }
@@ -111,16 +104,40 @@ dd { margin: 5px 0 0; font: 500 .92rem var(--mono); overflow-wrap: anywhere; }
   width: 100%;
   min-height: 61px;
   padding: 12px 19px;
-  border: 1px solid #e6ffab;
-  border-radius: 8px;
-  background: var(--lime);
-  box-shadow: 0 4px 0 #789535;
-  color: #1c2610;
+  border: 0;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--on-primary);
   font: 700 1.05rem "Instrument Sans", system-ui, sans-serif;
   text-decoration: none;
   cursor: pointer;
 }
-.action--finish { background: #ffc17c; border-color: #ffdbb3; box-shadow: 0 4px 0 #aa6938; color: #321d0d; }
+.action--finish { background: var(--secondary-container); color: var(--on-secondary-container); }
 .action:hover { filter: brightness(1.08); }
-.action:active { transform: translateY(3px); box-shadow: 0 1px 0 #1118; }
-.action:focus-visible { outline: 2px solid white; outline-offset: 5px; }
+.action:active { filter: brightness(.94); }
+.action:focus-visible { outline: 2px solid var(--primary); outline-offset: 5px; }
+
+.shell--login { width: min(100%, 480px); }
+.back-link { color: var(--muted); font-size: .78rem; text-underline-offset: 4px; }
+.back-link:hover { color: var(--ink); }
+.login-screen h1 { color: var(--primary); font: 600 clamp(1.25rem, 5vw, 1.8rem) var(--mono); }
+.login-screen p { margin: 10px 0 0; color: var(--muted); }
+.login-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 15px; }
+.login-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.login-field label { font-size: .85rem; color: var(--muted); }
+.login-field input {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--outline);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 1rem var(--mono);
+  caret-color: var(--primary);
+}
+.login-field input:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.login-errors, .login-form .errorlist { color: var(--error); font-size: .9rem; }
+.login-form .errorlist { margin: 0; padding-left: 1.25em; }
+.login-form .action { margin-top: 4px; }

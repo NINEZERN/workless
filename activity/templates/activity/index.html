@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#131710">
+  <meta name="theme-color" content="#141218">
   <title>Терминал смены · Workless</title>
   <link rel="stylesheet" href="{% static 'activity/terminal.css' %}">
   <script src="{% static 'activity/terminal.js' %}" defer></script>
@@ -50,7 +50,7 @@
           {% endif %}
         {% else %}
           <p class="guest-note">Войди, чтобы отметиться на смене.</p>
-          <a class="action" href="{% url 'admin:login' %}?next={% url 'home' %}">Войти <span aria-hidden="true">↗</span></a>
+          <a class="action" href="{% url 'login' %}">Войти <span aria-hidden="true">↗</span></a>
         {% endif %}
       </div>
     </section>

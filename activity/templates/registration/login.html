@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141218">
+  <title>Вход · Workless</title>
+  <link rel="stylesheet" href="{% static 'activity/terminal.css' %}">
+</head>
+<body>
+  <main class="shell shell--login">
+    <header class="terminal-header">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"></span>WORKLESS<span class="brand-period">.</span></div>
+      <a class="back-link" href="{% url 'home' %}">← К терминалу</a>
+    </header>
+    <section class="terminal" aria-labelledby="login-title">
+      <div class="screen login-screen">
+        <h1 id="login-title">Вход в терминал</h1>
+        <p>Войди под своим игровым аккаунтом.</p>
+      </div>
+      <form class="controls login-form" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+        {% if form.non_field_errors %}
+          <div class="login-errors" role="alert">{{ form.non_field_errors }}</div>
+        {% endif %}
+        {% for field in form %}
+          <div class="login-field">
+            {% if field.name == 'username' %}
+              <label for="{{ field.id_for_label }}">Логин</label>
+            {% else %}
+              <label for="{{ field.id_for_label }}">Пароль</label>
+            {% endif %}
+            {{ field }}
+            {{ field.errors }}
+          </div>
+        {% endfor %}
+        <button class="action" type="submit">Войти <span aria-hidden="true">↗</span></button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
