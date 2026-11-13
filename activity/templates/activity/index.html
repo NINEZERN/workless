@@ -1,17 +1,59 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#131710">
+  <title>Терминал смены · Workless</title>
+  <link rel="stylesheet" href="{% static 'activity/terminal.css' %}">
+  <script src="{% static 'activity/terminal.js' %}" defer></script>
 </head>
-
 <body>
-  <h1>Hello Worker</h1>
-  <form action="/activity/start_session/" method="post">
-    {% csrf_token %}
-    <input type="submit" name="start-session" value="Start Session" />
-  </form>
+  <main class="shell">
+    <header class="terminal-header">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"></span>WORKLESS<span class="brand-period">.</span></div>
+      <span class="location">{{ TIME_ZONE }}</span>
+    </header>
+
+    <section class="terminal" aria-labelledby="terminal-title">
+      <div class="screen{% if active_session %} screen--active{% endif %}" data-time-zone="{{ TIME_ZONE }}">
+        <div class="screen-header">
+          <h1 id="terminal-title">Терминал смены</h1>
+          <span class="status">
+            {% if active_session %}На смене{% elif user.is_authenticated %}Вне смены{% else %}Гость{% endif %}
+          </span>
+        </div>
+        <div class="clock" id="clock">{{ current_time|date:"H:i:s" }}</div>
+        <div class="date" id="clock-date">{{ current_time|date:"d.m.Y" }}</div>
+      </div>
+
+      <div class="controls">
+        {% if user.is_authenticated %}
+          <dl class="readout">
+            <div><dt>Игрок</dt><dd>{{ user.get_username }}</dd></div>
+            {% if active_session %}
+              <div><dt>Начало смены</dt><dd>{{ active_session.started_at|date:"d.m · H:i" }}</dd></div>
+              <div><dt>На смене</dt><dd id="elapsed" data-started="{{ active_session.started_at|date:'U' }}">00:00:00</dd></div>
+            {% endif %}
+          </dl>
+          {% if active_session %}
+            <form action="{% url 'finish_session' %}" method="post">
+              {% csrf_token %}
+              <button class="action action--finish" type="submit">Закончить смену <span aria-hidden="true">■</span></button>
+            </form>
+          {% else %}
+            <form action="{% url 'start_session' %}" method="post">
+              {% csrf_token %}
+              <button class="action" type="submit">Начать смену <span aria-hidden="true">▶</span></button>
+            </form>
+          {% endif %}
+        {% else %}
+          <p class="guest-note">Войди, чтобы отметиться на смене.</p>
+          <a class="action" href="{% url 'admin:login' %}?next={% url 'home' %}">Войти <span aria-hidden="true">↗</span></a>
+        {% endif %}
+      </div>
+    </section>
+  </main>
 </body>
 </html>

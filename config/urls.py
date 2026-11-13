@@ -22,5 +22,5 @@ from activity.views import home
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('activity/', include('activity.urls')),
-    path('', home)
+    path('', home, name='home'),
 ]

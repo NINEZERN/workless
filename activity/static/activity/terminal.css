@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  color-scheme: dark;
+  --ink: #eef1e5;
+  --muted: #a7ae9a;
+  --line: #3a4134;
+  --lime: #d5fb79;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  color: var(--ink);
+  background: #131710;
+}
+
+* { box-sizing: border-box; }
+body {
+  min-height: 100svh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 28px 16px;
+  background:
+    radial-gradient(ellipse at 50% 30%, #262e1d 0%, transparent 66%),
+    repeating-linear-gradient(90deg, transparent 0 79px, #ffffff06 79px 80px),
+    repeating-linear-gradient(0deg, transparent 0 79px, #ffffff06 79px 80px);
+}
+
+.shell { width: min(100%, 760px); }
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0 4px 17px;
+  font-family: var(--mono);
+}
+.brand { display: flex; align-items: center; font-size: 1.08rem; font-weight: 700; letter-spacing: .12em; }
+.brand-mark {
+  width: 14px;
+  height: 14px;
+  margin-right: 11px;
+  background: var(--lime);
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 62% 40%, 62% 100%, 0 100%);
+}
+.brand-period { color: var(--lime); }
+.location { color: var(--muted); font-size: .75rem; }
+
+.terminal {
+  padding: clamp(12px, 3vw, 26px);
+  border: 1px solid #525c49;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #30372a, #232820);
+  box-shadow: 0 8px 0 #0c100b, 0 28px 80px #080b07b0, inset 0 1px #ffffff13;
+}
+.screen {
+  padding: clamp(18px, 4vw, 32px);
+  border: 1px solid #434e3d;
+  border-radius: 11px;
+  background:
+    repeating-linear-gradient(0deg, #e0ffc805 0 1px, transparent 1px 4px),
+    radial-gradient(ellipse at 50% 90%, #212e1c, #111910 75%);
+  box-shadow: inset 0 0 35px #070d08ad;
+}
+.screen-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+h1 { margin: 0; font-size: clamp(1rem, 3vw, 1.4rem); font-weight: 600; }
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border: 1px solid #515b46;
+  border-radius: 4px;
+  font: 500 .73rem var(--mono);
+  color: #c1c9b4;
+}
+.status::before { content: ""; width: 7px; height: 7px; background: #9b9f88; }
+.screen--active .status { color: var(--lime); border-color: #6d8247; }
+.screen--active .status::before { background: var(--lime); box-shadow: 0 0 10px #d5fb7970; }
+
+.clock {
+  margin-top: clamp(24px, 5vw, 44px);
+  color: var(--lime);
+  text-align: center;
+  font: 600 clamp(1.9rem, 9.4vw, 5.9rem)/1 var(--mono);
+  letter-spacing: -.07em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 28px #b3e44b30;
+}
+.date { margin: 16px 0 10px; text-align: center; color: var(--muted); font: .82rem var(--mono); letter-spacing: .09em; }
+
+.controls { padding-top: 19px; }
+.readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 135px), 1fr));
+  margin: 0 0 16px;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--line);
+}
+.readout div { padding: 12px 15px; background: #20251d; min-width: 0; }
+dt { color: var(--muted); font-size: .77rem; }
+dd { margin: 5px 0 0; font: 500 .92rem var(--mono); overflow-wrap: anywhere; }
+.guest-note { margin: 0 0 15px; color: var(--muted); }
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 61px;
+  padding: 12px 19px;
+  border: 1px solid #e6ffab;
+  border-radius: 8px;
+  background: var(--lime);
+  box-shadow: 0 4px 0 #789535;
+  color: #1c2610;
+  font: 700 1.05rem "Instrument Sans", system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+.action--finish { background: #ffc17c; border-color: #ffdbb3; box-shadow: 0 4px 0 #aa6938; color: #321d0d; }
+.action:hover { filter: brightness(1.08); }
+.action:active { transform: translateY(3px); box-shadow: 0 1px 0 #1118; }
+.action:focus-visible { outline: 2px solid white; outline-offset: 5px; }
