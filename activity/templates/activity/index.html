@@ -4,27 +4,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#141218">
+  <meta name="theme-color" content="#faf5eb">
   <title>Терминал смены · Workless</title>
   <link rel="stylesheet" href="{% static 'activity/terminal.css' %}">
   <script src="{% static 'activity/terminal.js' %}" defer></script>
 </head>
-<body>
-  <main class="shell">
+<body class="clock-page">
+  <main class="shell clock-shell">
     <header class="terminal-header">
-      <div class="brand"><span class="brand-mark" aria-hidden="true"></span>WORKLESS<span class="brand-period">.</span></div>
-      <span class="location">{{ TIME_ZONE }}</span>
+      <div class="header-actions">
+        <span class="location">{{ TIME_ZONE }}</span>
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout-button" type="submit">Выйти</button>
+          </form>
+        {% endif %}
+      </div>
     </header>
 
     <section class="terminal" aria-labelledby="terminal-title">
+      <h1 id="terminal-title">Workless</h1>
+      <div class="analog-clock" aria-hidden="true">
+        {% for mark in "0123456789ab" %}
+          <span class="dial-mark" style="--mark: {{ forloop.counter0 }}"></span>
+        {% endfor %}
+        <span class="clock-hand clock-hand--hour"></span>
+        <span class="clock-hand clock-hand--minute"></span>
+      </div>
       <div class="screen{% if active_session %} screen--active{% endif %}" data-time-zone="{{ TIME_ZONE }}">
         <div class="screen-header">
-          <h1 id="terminal-title">Терминал смены</h1>
           <span class="status">
             {% if active_session %}На смене{% elif user.is_authenticated %}Вне смены{% else %}Гость{% endif %}
           </span>
         </div>
-        <div class="clock" id="clock">{{ current_time|date:"H:i:s" }}</div>
+        <div class="clock" id="clock">{{ current_time|date:"H:i" }}</div>
         <div class="date" id="clock-date">{{ current_time|date:"d.m.Y" }}</div>
       </div>
 
@@ -40,17 +54,17 @@
           {% if active_session %}
             <form action="{% url 'finish_session' %}" method="post">
               {% csrf_token %}
-              <button class="action action--finish" type="submit">Закончить смену <span aria-hidden="true">■</span></button>
+              <button class="action action--finish" type="submit">Закончить смену</button>
             </form>
           {% else %}
             <form action="{% url 'start_session' %}" method="post">
               {% csrf_token %}
-              <button class="action" type="submit">Начать смену <span aria-hidden="true">▶</span></button>
+              <button class="action" type="submit">Начать смену</button>
             </form>
           {% endif %}
         {% else %}
           <p class="guest-note">Войди, чтобы отметиться на смене.</p>
-          <a class="action" href="{% url 'login' %}">Войти <span aria-hidden="true">↗</span></a>
+          <a class="action" href="{% url 'login' %}">Войти</a>
         {% endif %}
       </div>
     </section>

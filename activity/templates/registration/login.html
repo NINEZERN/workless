@@ -4,20 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#141218">
+  <meta name="theme-color" content="#faf5eb">
   <title>Вход · Workless</title>
   <link rel="stylesheet" href="{% static 'activity/terminal.css' %}">
 </head>
-<body>
+<body class="clock-page">
   <main class="shell shell--login">
     <header class="terminal-header">
-      <div class="brand"><span class="brand-mark" aria-hidden="true"></span>WORKLESS<span class="brand-period">.</span></div>
       <a class="back-link" href="{% url 'home' %}">← К терминалу</a>
     </header>
     <section class="terminal" aria-labelledby="login-title">
       <div class="screen login-screen">
-        <h1 id="login-title">Вход в терминал</h1>
-        <p>Войди под своим игровым аккаунтом.</p>
+        <h1 id="login-title">Workless</h1>
       </div>
       <form class="controls login-form" method="post" action="{% url 'login' %}">
         {% csrf_token %}
@@ -36,7 +34,7 @@
             {{ field.errors }}
           </div>
         {% endfor %}
-        <button class="action" type="submit">Войти <span aria-hidden="true">↗</span></button>
+        <button class="action" type="submit">Войти</button>
       </form>
     </section>
   </main>

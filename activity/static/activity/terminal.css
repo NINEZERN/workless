@@ -47,6 +47,26 @@ body {
 }
 .brand-period { color: var(--primary); }
 .location { color: var(--muted); font-size: .75rem; }
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.logout-button {
+  min-height: 36px;
+  padding: 4px 10px;
+  border: 1px solid var(--outline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: .75rem;
+  cursor: pointer;
+}
+.logout-button:hover { background: var(--secondary-container); }
+.logout-button:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 
 .terminal {
   padding: clamp(12px, 3vw, 26px);
@@ -120,8 +140,10 @@ dd { margin: 5px 0 0; font: 500 .92rem var(--mono); overflow-wrap: anywhere; }
 .shell--login { width: min(100%, 480px); }
 .back-link { color: var(--muted); font-size: .78rem; text-underline-offset: 4px; }
 .back-link:hover { color: var(--ink); }
-.login-screen h1 { color: var(--primary); font: 600 clamp(1.25rem, 5vw, 1.8rem) var(--mono); }
-.login-screen p { margin: 10px 0 0; color: var(--muted); }
+.shell--login .terminal-header { justify-content: flex-end; }
+.shell--login .back-link { color: var(--case); }
+.login-screen { padding: 0; text-align: center; background: transparent; }
+.login-screen h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; }
 .login-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 15px; }
 .login-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .login-field label { font-size: .85rem; color: var(--muted); }
@@ -132,12 +154,135 @@ dd { margin: 5px 0 0; font: 500 .92rem var(--mono); overflow-wrap: anywhere; }
   padding: 10px 12px;
   border: 1px solid var(--outline);
   border-radius: 5px;
-  background: var(--surface);
-  color: var(--ink);
-  font: 1rem var(--mono);
-  caret-color: var(--primary);
+  background: var(--paper);
+  color: var(--case);
+  font-family: inherit;
+  font-size: 1rem;
+  caret-color: var(--case);
 }
 .login-field input:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .login-errors, .login-form .errorlist { color: var(--error); font-size: .9rem; }
 .login-form .errorlist { margin: 0; padding-left: 1.25em; }
-.login-form .action { margin-top: 4px; }
+.login-form .action { margin-top: 4px; justify-content: center; border-radius: 14px; }
+
+.clock-page {
+  color-scheme: light;
+  --paper: #faf5eb;
+  --case: #304458;
+  --ink: var(--paper);
+  --muted: #d9e3ed;
+  --primary: #d0e3f5;
+  --on-primary: #24394c;
+  --secondary-container: #f1dcbf;
+  --on-secondary-container: #443220;
+  --outline: #8c9dae;
+  background: var(--paper);
+  color: var(--case);
+}
+
+.clock-page .terminal {
+  border: 0;
+  border-radius: 24px;
+  background: var(--case);
+  color: var(--ink);
+}
+
+.clock-shell {
+  width: min(100%, 1040px);
+}
+
+.clock-shell .terminal-header {
+  justify-content: flex-end;
+  padding-bottom: 10px;
+}
+.clock-shell .location, .clock-shell .logout-button { color: #304458; }
+
+.clock-shell .terminal {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  grid-template-areas: "title title" "dial display" "dial controls";
+  gap: 12px clamp(18px, 4vw, 48px);
+  padding: clamp(22px, 4vw, 50px);
+}
+
+.clock-shell h1 {
+  grid-area: title;
+  margin-bottom: clamp(12px, 2vw, 26px);
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  letter-spacing: -.035em;
+}
+
+.analog-clock {
+  grid-area: dial;
+  position: relative;
+  width: 100%;
+  max-width: 310px;
+  aspect-ratio: 1;
+  place-self: center;
+  border-radius: 50%;
+  background: #faf5eb;
+  color: #304458;
+}
+.dial-mark, .clock-hand {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--rotation, 0deg));
+}
+.dial-mark { --rotation: calc(var(--mark) * 30deg); }
+.dial-mark::before, .clock-hand::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  border-radius: 99px;
+  background: currentColor;
+}
+.dial-mark::before { top: 7%; width: 1.1%; height: 6%; }
+.dial-mark:nth-child(3n + 1)::before { width: 1.8%; height: 9%; }
+.clock-hand::before { bottom: 49%; width: 3%; height: 36%; }
+.clock-hand--hour::before { width: 4%; height: 25%; }
+.analog-clock::after {
+  content: "";
+  position: absolute;
+  inset: 46%;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.clock-shell .screen {
+  grid-area: display;
+  padding: 0;
+  background: transparent;
+}
+.clock-shell .screen-header { justify-content: center; }
+.clock-shell .status {
+  border: 0;
+  background: var(--ink);
+  color: var(--on-primary);
+  font: 700 clamp(.85rem, 2vw, 1.15rem) "Instrument Sans", system-ui, sans-serif;
+}
+.clock-shell .status::before { display: none; }
+.clock-shell .screen--active .status { background: var(--primary); }
+.clock-shell .clock {
+  margin-top: 12px;
+  font: 700 clamp(3rem, 11vw, 8rem)/1 "Instrument Sans", system-ui, sans-serif;
+  letter-spacing: -.055em;
+}
+.clock-shell .date { margin: 10px 0 0; }
+.clock-shell .controls { grid-area: controls; padding-top: 8px; }
+.clock-shell .action {
+  justify-content: center;
+  border-radius: 14px;
+  font-size: clamp(1.05rem, 3vw, 1.6rem);
+}
+.clock-shell .readout { margin-bottom: 12px; }
+
+@media (max-width: 560px) {
+  .clock-shell .terminal {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "title" "dial" "display" "controls";
+  }
+  .analog-clock { max-width: min(44vw, 180px); margin-bottom: 8px; }
+}
